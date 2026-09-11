@@ -54,13 +54,13 @@ update_pin() {
   echo "${version_variable}: $version" >&2
 }
 
-bats_tag="$(latest_github_tag bats-core/bats-core)"
+bats_tag="$(latest_github_tag bats-hardened/bats-core)"
 case "$bats_tag" in
   v*) bats_version="${bats_tag#v}" ;;
   *) echo "Failed to resolve a v-prefixed Bats release tag" >&2; exit 1 ;;
 esac
 bats_sha256="$(download_sha256 \
-  "https://github.com/bats-core/bats-core/archive/refs/tags/$bats_tag.tar.gz" \
+  "https://github.com/bats-hardened/bats-core/archive/refs/tags/$bats_tag.tar.gz" \
   "$temp_dir/bats-core.tar.gz")"
 update_pin BATS_VERSION BATS_SHA256 "$bats_version" "$bats_sha256"
 
