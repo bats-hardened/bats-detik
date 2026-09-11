@@ -26,7 +26,7 @@ jobs:
         bats_archive="$RUNNER_TEMP/bats-core.tar.gz"
 
         ./download.sh \
-          "https://github.com/bats-core/bats-core/archive/refs/tags/v${bats_version}.tar.gz" \
+          "https://github.com/bats-hardened/bats-core/archive/refs/tags/v${bats_version}.tar.gz" \
           "$bats_archive"
         printf '%s  %s\n' "$bats_sha256" "$bats_archive" | sha256sum --check -
 
