@@ -33,14 +33,9 @@ latest_github_tag() {
 download_sha256() {
   local url="$1"
   local archive="$2"
-  local use_github_token="${3:-false}"
   local sha256
 
-  if [[ $use_github_token == true ]]; then
-    curl "${github_curl_args[@]}" --output "$archive" "$url"
-  else
-    curl "${curl_args[@]}" --output "$archive" "$url"
-  fi
+  "$script_dir/download.sh" "$url" "$archive"
   sha256="$(sha256sum "$archive")"
   rm -f "$archive"
   printf '%s' "${sha256%% *}"
@@ -66,7 +61,7 @@ case "$bats_tag" in
 esac
 bats_sha256="$(download_sha256 \
   "https://github.com/bats-core/bats-core/archive/refs/tags/$bats_tag.tar.gz" \
-  "$temp_dir/bats-core.tar.gz" true)"
+  "$temp_dir/bats-core.tar.gz")"
 update_pin BATS_VERSION BATS_SHA256 "$bats_version" "$bats_sha256"
 
 kubectl_version="$(curl "${curl_args[@]}" https://dl.k8s.io/release/stable.txt)"
