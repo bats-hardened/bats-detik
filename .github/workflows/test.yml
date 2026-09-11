@@ -13,7 +13,7 @@ jobs:
     name: Test DETIK
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v2
     - name: Install Bats
       run: |
         bats_version="$(grep -m1 '^ARG BATS_VERSION=' Dockerfile | cut -d= -f2-)"
@@ -35,6 +35,6 @@ jobs:
     name: Build the Docker image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v2
     - name: Execute the build script
       run: docker build -t bats/bats-detik .
