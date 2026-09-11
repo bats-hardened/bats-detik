@@ -20,7 +20,7 @@ RUN apk --no-cache add \
 # Install BATS
 RUN curl --fail --location --silent --show-error --retry 4 --retry-connrefused \
         --output /tmp/bats-core.tar.gz \
-        "https://github.com/bats-core/bats-core/archive/refs/tags/v$BATS_VERSION.tar.gz" && \
+        "https://github.com/bats-hardened/bats-core/archive/refs/tags/v$BATS_VERSION.tar.gz" && \
     echo "$BATS_SHA256  /tmp/bats-core.tar.gz" | sha256sum -c - && \
     tar -xzf /tmp/bats-core.tar.gz -C /tmp && \
     "/tmp/bats-core-$BATS_VERSION/install.sh" /usr/local && \
