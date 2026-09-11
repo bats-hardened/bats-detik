@@ -241,11 +241,14 @@ To build a Docker image from it:
 # Tag it with LATEST
 docker build -t bats/bats-detik:LATEST .
 
-# Overwrite the default versions
+# Override the pinned versions together with their matching checksums
 docker build \
 	--build-arg KUBECTL_VERSION=v1.21.2 \
+	--build-arg KUBECTL_SHA256=expected-sha256 \
 	--build-arg HELM_VERSION=v3.6.1 \
+	--build-arg HELM_SHA256=expected-sha256 \
 	--build-arg BATS_VERSION=1.3.0 \
+	--build-arg BATS_SHA256=expected-sha256 \
 	-t bats/bats-detik:LATEST \
 	.    
 ```
