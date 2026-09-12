@@ -9,7 +9,6 @@ load ../lib/detik
 # The client function.
 DETIK_CLIENT_NAME="kubectl"
 
-
 #########################################
 # Counting objects
 #########################################
@@ -29,7 +28,6 @@ verify "there are 4 po named 'nginx'"
 
 # Use a regular expression for the name
 verify "there are 4 po named 'nginx.*'"
-
 
 #########################################
 # Verifying properties
@@ -52,7 +50,6 @@ verify "'status' is 'running' for pods named 'nginx.*'"
 # Use kubectl get <resource> -o custom-columns=ALL:* to find column names.
 verify "'.status.phase' is 'running' for pods named 'nginx'"
 verify "'.spec.ports[*].targetPort' is '8484' for services named 'nginx'"
-
 
 #########################################
 # Verifying properties (with retries)
@@ -80,19 +77,17 @@ try "at most 2 times every 30s to get po named '^ng.*nx' and verify that 'status
 try "at most 2 times every 30s to get po named 'nginx' and verify that '.status.phase' is 'running'"
 try "at most 2 times every 30s to get svc named 'nginx' and verify that '.spec.ports[*].targetPort' is '8484'"
 
-
 #########################################
 # Formatting
 #########################################
 
 # Splitting a request over several lines
-try "at most 2 times every 30s "\
-	"to get svc named 'nginx' and "\
-	"verify that '.spec.ports[*].targetPort' is '8484'"
+try "at most 2 times every 30s " \
+  "to get svc named 'nginx' and " \
+  "verify that '.spec.ports[*].targetPort' is '8484'"
 
 # Using quotes differently
 # (make sure to surround single quotes by double ones)
 try at most 2 times every 30s \
-	to get svc named "'nginx'" and \
-	verify that "'.spec.ports[*].targetPort'" is "'8484'"
-
+  to get svc named "'nginx'" and \
+  verify that "'.spec.ports[*].targetPort'" is "'8484'"
