@@ -5,7 +5,6 @@
 You can create issues to share ideas or report a problem.  
 Feel free also to submit pull requests.
 
-
 ## Commit Signing
 
 All the commits need to be signed with a PGP key.  
