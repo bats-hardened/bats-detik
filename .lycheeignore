@@ -1,0 +1,4 @@
+# ignore tarballs from GitHub
+^https://github.com/.*/.*/archive/refs/tags/.*\.tar\.gz$
+# file location in examples
+^file://buzz/home/workspace/my-app-deployment/.*$
