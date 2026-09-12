@@ -13,7 +13,9 @@ jobs:
     name: Test DETIK
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v2
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Install Bats
       run: |
         bats_version="$(grep -m1 '^ARG BATS_VERSION=' Dockerfile | cut -d= -f2-)"
@@ -35,9 +37,11 @@ jobs:
     name: Build the Docker image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v2
-    - name: Execute the build script
-      run: docker build -t bats/bats-detik .
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Execute the build script
+        run: docker build -t bats/bats-detik .
 
   super-linter:
     name: Run Super-Linter
