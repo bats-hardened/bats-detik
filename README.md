@@ -1,4 +1,5 @@
 # DETIK: DevOps e2e Testing in Kubernetes
+
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/bats-core/bats-detik/blob/master/LICENSE)
 [![Build status](https://github.com/bats-core/bats-detik/actions/workflows/test.yml/badge.svg)](https://github.com/bats-core/bats-detik/actions/workflows/test.yml)
 
@@ -11,7 +12,6 @@ fact, it is the last part of a pipeline for a project or a Helm package. The maj
 a test cluster, or at least a non-production one, to execute these tests.
 
 > This tooling is inspired from [Pierre Mavro's article](https://blog.deimos.fr/2019/02/08/k8s-euft-run-functional-tests-on-your-helm-charts/), in particular for the BATS approach. However, it has the ambition of making such tests more simple to write. And it does not deal with the deployment of a K8s cluster.
-
 
 ## Table of Contents
 
@@ -42,18 +42,16 @@ a test cluster, or at least a non-production one, to execute these tests.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-
 ## Objectives
 
-* Execute Helm / kubectl / oc commands and verify assertions on their output.
-  * Example: get the right number of POD, make sure they are READY, etc.
-* Execute application scenarios:
-  * Example: access a login page and follow a complex UI scenario (e.g. with [Selenium](https://www.seleniumhq.org/)).
-  * Example: simulate events (e.g. the loss of a POD instance) and verify everything keeps on working.
-  * Example: be able to play performance tests for a given configuration.
-* Organize all the tests in scenarios.
-* Obtain an execution report at the end.
-
+- Execute Helm / kubectl / oc commands and verify assertions on their output.
+  - Example: get the right number of POD, make sure they are READY, etc.
+- Execute application scenarios:
+  - Example: access a login page and follow a complex UI scenario (e.g. with [Selenium](https://www.seleniumhq.org/)).
+  - Example: simulate events (e.g. the loss of a POD instance) and verify everything keeps on working.
+  - Example: be able to play performance tests for a given configuration.
+- Organize all the tests in scenarios.
+- Obtain an execution report at the end.
 
 ## Examples
 
@@ -70,38 +68,38 @@ load "lib/detik"
 DETIK_CLIENT_NAME="kubectl"
 
 @test "verify the deployment" {
-	
-	run kubectl apply -f my-big-deployment-file.yml
-	[ "$status" -eq 0 ]
-	
-	sleep 20
-	
-	run verify "there are 2 pods named 'nginx'"
-	[ "$status" -eq 0 ]
-	
-	run verify "there is 1 service named 'nginx'"
-	[ "$status" -eq 0 ]
-	
-	run try "at most 5 times every 30s to find 2 pods named 'nginx' with 'status' being 'running'"
-	[ "$status" -eq 0 ]
-	
-	run try "at most 5 times every 30s to get pods named 'nginx' and verify that 'status' is 'running'"
-	[ "$status" -eq 0 ]
+  
+  run kubectl apply -f my-big-deployment-file.yml
+  [ "$status" -eq 0 ]
+  
+  sleep 20
+  
+  run verify "there are 2 pods named 'nginx'"
+  [ "$status" -eq 0 ]
+  
+  run verify "there is 1 service named 'nginx'"
+  [ "$status" -eq 0 ]
+  
+  run try "at most 5 times every 30s to find 2 pods named 'nginx' with 'status' being 'running'"
+  [ "$status" -eq 0 ]
+  
+  run try "at most 5 times every 30s to get pods named 'nginx' and verify that 'status' is 'running'"
+  [ "$status" -eq 0 ]
 }
 
 
 @test "verify the undeployment" {
 	
-	run kubectl delete -f my-big-deployment-file.yml
-	[ "$status" -eq 0 ]
-	
-	sleep 20
-	
-	run try "at most 5 times every 5s to find 0 pod named 'nginx' with 'status' being 'running'"
-	[ "$status" -eq 0 ]
-	
-	run verify "there is 0 service named 'nginx'"
-	[ "$status" -eq 0 ]
+  run kubectl delete -f my-big-deployment-file.yml
+  [ "$status" -eq 0 ]
+  
+  sleep 20
+  
+  run try "at most 5 times every 5s to find 0 pod named 'nginx' with 'status' being 'running'"
+  [ "$status" -eq 0 ]
+  
+  run verify "there is 0 service named 'nginx'"
+  [ "$status" -eq 0 ]
 }
 ```
 
@@ -132,7 +130,6 @@ The command "bats my-tests.bats" exited with 1.
 
 Since this project works with BATS, you can use **setup** and **teardown**
 functions to prepare and clean after every test in a file.
-
 
 ### Working with Kubectl or OC commands
 
@@ -183,8 +180,8 @@ try at most 5 times every 30s \
 
 # Regular expressions can also be used
 try at most 5 times every 30s \
-	to get svc named 'nginx' \
-	and verify that '.spec.ports[*].targetPort' matches '[[:digit:]]+'
+  to get svc named 'nginx' \
+  and verify that '.spec.ports[*].targetPort' matches '[[:digit:]]+'
 ```
 
 If you work with OpenShift and would prefer to use **oc** instead of **kubectl**...
@@ -206,18 +203,17 @@ verify "there are 2 pods named 'nginx'"
 Examples are available under [the eponym directory](examples/ci).
 It includes...
 
-* Library usage
-* Tests for a Helm package
-* Pipeline / CI integrations
-
+- Library usage
+- Tests for a Helm package
+- Pipeline / CI integrations
 
 ## Usage
 
 ### Manual Setup
 
-* Install [BATS](https://github.com/bats-core/bats-core), a testing framework for scripts.
+- Install [BATS](https://github.com/bats-core/bats-core), a testing framework for scripts.
 BATS is a test framework for BASH and other scripts.
-* Download the **lib/detik.bash** script.
+- Download the **lib/detik.bash** script.
 
 ```bash
 wget https://raw.githubusercontent.com/bats-core/bats-detik/master/lib/detik.bash
@@ -226,11 +222,10 @@ wget https://raw.githubusercontent.com/bats-core/bats-detik/master/lib/utils.bas
 chmod +x *.bash
 ```
 
-* Write BATS scripts with assertions.
-Make sure they import the **lib/utils.bash** and **lib/detik.bash** files.
-* Import the **lib/linter.bash** file to verify the linting of DETIK assertions.
-* Use the BATS command to run your tests: `bats sources/tests/main.bats`
-
+- Write BATS scripts with assertions.
+- Make sure they import the **lib/utils.bash** and **lib/detik.bash** files.
+- Import the **lib/linter.bash** file to verify the linting of DETIK assertions.
+- Use the BATS command to run your tests: `bats sources/tests/main.bats`
 
 ### Docker Setup
 
@@ -247,14 +242,14 @@ docker build -t bats/bats-detik:LATEST .
 
 # Override the pinned versions together with their matching checksums
 docker build \
-	--build-arg KUBECTL_VERSION=v1.21.2 \
-	--build-arg KUBECTL_SHA256=expected-sha256 \
-	--build-arg HELM_VERSION=v3.6.1 \
-	--build-arg HELM_SHA256=expected-sha256 \
-	--build-arg BATS_VERSION=1.3.0 \
-	--build-arg BATS_SHA256=expected-sha256 \
-	-t bats/bats-detik:LATEST \
-	.
+  --build-arg KUBECTL_VERSION=v1.21.2 \
+  --build-arg KUBECTL_SHA256=expected-sha256 \
+  --build-arg HELM_VERSION=v3.6.1 \
+  --build-arg HELM_SHA256=expected-sha256 \
+  --build-arg BATS_VERSION=1.3.0 \
+  --build-arg BATS_SHA256=expected-sha256 \
+  -t bats/bats-detik:LATEST \
+  .
 ```
 
 On a development machine, you can use it this way:
@@ -264,10 +259,10 @@ On a development machine, you can use it this way:
 # In this example, we show how to specify the proxy
 # if your organization is using one.
 docker run -ti \
-	-v $(pwd):/home/testing/sources \
-	-e http_proxy="proxy.local:3128" \
-	-e https_proxy="proxy.local:3128" \
-	bats-detik:LATEST
+  -v $(pwd):/home/testing/sources \
+  -e http_proxy="proxy.local:3128" \
+  -e https_proxy="proxy.local:3128" \
+  bats-detik:LATEST
 
 # Log into the cluster
 echo "It all depends on your cluster configuration"
@@ -281,12 +276,10 @@ bats sources/tests/main.bats
 
 It can also be used in a continuous integration platform.
 
-
 ### Continuous Integration
 
 An example is given for Jenkins in [the examples](examples/ci).
 The syntax is quite simple and may be easily adapted for other solutions, such as GitLab CI, Tracis CI, etc.
-
 
 ## Syntax Reference
 
@@ -296,7 +289,6 @@ The resource name can be a simple string (e.g. `nginx`) or a regular expression
 the K8s ones (e.g. `pods`, `po`, `services`, `svc`...) or a CRD. See
 [https://kubernetes.io/docs/reference/kubectl/overview/#resource-types](https://kubernetes.io/docs/reference/kubectl/overview/#resource-types) for a complete reference of the official
 resources. The available custom resources (e.g. `settings.management.cattle.io`) will depend on your cluster setup.
-
 
 ### Counting Resources
 
@@ -353,8 +345,8 @@ Attempt to verify the property of a set of resources of this type with this name
 
 ```bash
 try "at most <number> times every <number>s \
-	to get <resource-type> named '<regular-expression>' \
-	and verify that '<property-name>' is '<expected-value>'"
+  to get <resource-type> named '<regular-expression>' \
+  and verify that '<property-name>' is '<expected-value>'"
 ```
 
 This is a checking loop.
