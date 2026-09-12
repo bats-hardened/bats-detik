@@ -48,7 +48,7 @@ RUN curl --fail --location --silent --show-error --retry 4 --retry-connrefused \
 # Use the same UID than Jenkins:
 # for Jenkins versions < 2.62, this is 1000
 RUN adduser -D -u 10000 testing
-USER testing
+USER 10000
 WORKDIR /home/testing
 
 # Initialize the Helm client (Helm 2.x)
