@@ -31,14 +31,20 @@ to_lower_case() {
 # @param {string} The string.
 # @return 0
 trim() {
-  echo $1 | sed -e 's/^[[:space:]]*([^[[:space:]]].*[^[[:space:]]])[[:space:]]*$/$1/'
+  local value
+  value=$(tr -s '[:space:]' ' ' <<<"$1")
+  value="${value#"${value%%[![:space:]]*}"}"
+  value="${value%"${value##*[![:space:]]}"}"
+  printf '%s\n' "$value"
 }
 
 # Trims ANSI codes (used to format strings in consoles).
 # @param {string} The string.
 # @return 0
 trim_ansi_codes() {
-  echo $1 | sed -e 's/[[:cntrl:]]\[[0-9;]*[a-zA-Z]//g'
+  # Keep sed: Bash parameter substitution supports globs, not regular expressions.
+  # shellcheck disable=SC2001
+  sed -e 's/[[:cntrl:]]\[[0-9;]*[a-zA-Z]//g' <<<"$1"
 }
 
 # Adds a debug message for a given test.

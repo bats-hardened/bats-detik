@@ -194,9 +194,7 @@ verify() {
     name="${BASH_REMATCH[4]}"
 
     echo "Valid expression. Verification in progress..."
-    verify_value true "$property" "$expected_value" "$resource" "$name"
-
-    if [[ "$?" != "0" ]]; then
+    if ! verify_value true "$property" "$expected_value" "$resource" "$name"; then
       return 3
     fi
 
@@ -207,9 +205,7 @@ verify() {
     name="${BASH_REMATCH[4]}"
 
     echo "Valid expression. Verification in progress..."
-    verify_value false "$property" "$expected_value" "$resource" "$name"
-
-    if [[ "$?" != "0" ]]; then
+    if ! verify_value false "$property" "$expected_value" "$resource" "$name"; then
       return 3
     fi
 
@@ -322,8 +318,7 @@ verify_value() {
           value=$(to_lower_case "$value")
         fi
 
-        reg=$(echo "$value" | grep -E -- "$expected_value")
-        if [[ "$?" -ne 0 ]]; then
+        if ! reg=$(echo "$value" | grep -E -- "$expected_value"); then
           echo "Current value for $element is $value..."
           invalid=$((invalid + 1))
         else
