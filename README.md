@@ -89,7 +89,7 @@ DETIK_CLIENT_NAME="kubectl"
 
 
 @test "verify the undeployment" {
-	
+ 
   run kubectl delete -f my-big-deployment-file.yml
   [ "$status" -eq 0 ]
   
@@ -196,7 +196,6 @@ DETIK_CLIENT_NAME="oc"
 # Verify the number of PODS and services
 verify "there are 2 pods named 'nginx'"
 ```
-
 
 ### Other Examples
 
@@ -321,8 +320,8 @@ Hence this additional syntax (using [next section](#verifying-property-values) d
 ```bash
 # Expecting a given number of instances
 try "at most <number> times every <number>s \
-	to find <number> <resource-type> named '<regular-expression>' \
-	with '<property-name>' being '<expected-value>'"
+  to find <number> <resource-type> named '<regular-expression>' \
+  with '<property-name>' being '<expected-value>'"
 ```
 
 :pushpin: This assertion is useful for PODs, whose life cycle changes take time.
@@ -331,7 +330,6 @@ For services, you may directly use the simple count assertions.
 This is a checking loop.
 It breaks the loop if as soon as the assertion is verified. If it reaches the end of the loop without having been
 verified, an error is thrown. Please, refer to [this section](#property-names) for details about the property names.
-
 
 ### Verifying Property Values
 
@@ -358,7 +356,6 @@ about the property names.
 But unlike the assertion type to [count resources](#counting-resources), you do not verify _how many instances_ have this value. Notice
 however that **if it finds 0 item verifying the property, the assertion fails**.
 
-
 ### Using Regular Expressions
 
 It is also possible to verify property values against a regular expression.
@@ -370,13 +367,13 @@ verify "'<property-name>' matches '<regular-experession>' for <resource-type> na
 
 # Finding elements with a matching property
 try "at most <number> times every <number>s \
-	to get <resource-type> named '<regular-expression>' \
-	and verify that '<property-name>' matches '<regular-experession>'"
+  to get <resource-type> named '<regular-expression>' \
+  and verify that '<property-name>' matches '<regular-experession>'"
 
 # Counting elements with a matching property
 try "at most <number> times every <number>s \
-	to find <number> <resource-type> named '<regular-expression>' \
-	with '<property-name>' matching '<regular-expression>'"
+  to find <number> <resource-type> named '<regular-expression>' \
+  with '<property-name>' matching '<regular-expression>'"
 ```
 
 The regular expression used for property values relies on
@@ -417,23 +414,21 @@ verify "'status' matches 'running' for pods named 'nginx'"
 # function that defines it. It is recommended to NOT make this variable a global one.
 ```
 
-
 ### Property Names
 
-In all assertions, *property-name* is one of the column names supported by K8s.
-See https://kubernetes.io/docs/reference/kubectl/overview/#custom-columns
+In all assertions, _property-name_ is one of the column names supported by K8s.
+See <https://kubernetes.io/docs/reference/kubectl/overview/#custom-columns>
 You can also find column names by using `kubectl get <resource-type> -o custom-columns=ALL:*`.
 
 To ease the writing of assertions, some aliases are proposed by the library.
 
-| Alias        | Target Property           | Useful For |
-| ------------ | ------------------------- | :--------: |
-| status       | .status.phase             | PODS       |
-| port         | .spec.ports[*].port       | Services   |
-| targetPort   | .spec.ports[*].targetPort | Services   |
+| Alias      | Target Property           | Useful For |
+|------------|---------------------------|:----------:|
+| status     | .status.phase             |    PODS    |
+| port       | .spec.ports[*].port       |  Services  |
+| targetPort | .spec.ports[*].targetPort |  Services  |
 
 Other aliases may appear later.
-
 
 ## Errors
 
@@ -441,13 +436,12 @@ Other aliases may appear later.
 
 All the functions rely on the same convention.
 
-| Exit Code | Meaning |
-| --------- | ------- |
-|     0     | Everything is fine. |
-|     1     | The query for the function was empty. |
-|     2     | The query did not respect the syntax. |
-|     3     | The assertion could not be verified when the function returned. It may also indicate an error with the K8s client. |
-
+| Exit Code | Meaning                                                                                                            |
+|-----------|--------------------------------------------------------------------------------------------------------------------|
+| 0         | Everything is fine.                                                                                                |
+| 1         | The query for the function was empty.                                                                              |
+| 2         | The query did not respect the syntax.                                                                              |
+| 3         | The assertion could not be verified when the function returned. It may also indicate an error with the K8s client. |
 
 ### Debugging Tests
 
@@ -466,28 +460,28 @@ load "lib/detik"
 
 # Improve readability of the debug file
 setup() {
-	debug ""
-	debug  ""
-	debug  "-- $BATS_TEST_DESCRIPTION --"
-	debug  ""
-	debug  ""
+  debug ""
+  debug  ""
+  debug  "-- $BATS_TEST_DESCRIPTION --"
+  debug  ""
+  debug  ""
 }
 
 
 @test "reset the debug file" {
-	# This function is part of DETIK too
-	reset_debug
+  # This function is part of DETIK too
+  reset_debug
 }
 
 
 @test "run my first test" {
 
-	# Make an assertion and output the result in the debug file.
-	run verify ...
-	debug "Command output is: $output"
-	[ "$status" -eq 0 ]
-	
-	# ...
+  # Make an assertion and output the result in the debug file.
+  run verify ...
+  debug "Command output is: $output"
+  [ "$status" -eq 0 ]
+  
+  # ...
 }
 ```
 
@@ -509,7 +503,6 @@ run verify "'status' is 'running' for pods named 'nginx'"
 DEBUG_DETIK=""
 ```
 
-
 ### Linting
 
 Despite the efforts to make the DETIK syntax as simple as possible, BASH remains a non-compiled
@@ -523,22 +516,20 @@ load "lib/linter"
 
 @test "lint assertions" {
 
-	run lint "tests/my-tests-1.bats"
-	# echo -e "$output" > /tmp/errors.txt
-	[ "$status" -eq 0 ]
-	
-	run lint "tests/my-tests-2.bats"
-	# echo -e "$output" > /tmp/errors.txt
-	[ "$status" -eq 0 ]
+  run lint "tests/my-tests-1.bats"
+  # echo -e "$output" > /tmp/errors.txt
+  [ "$status" -eq 0 ]
+  
+  run lint "tests/my-tests-2.bats"
+  # echo -e "$output" > /tmp/errors.txt
+  [ "$status" -eq 0 ]
 }
 ```
-
 
 ### Tips
 
 1. **Do not use file descriptors 3 and 4 in your tests.**
 They are already used by BATS. And 0, 1 and 2 are default file descriptors. Use 5, 6 and higher values.
-
 
 ## Beyond K8s assertions
 
