@@ -7,6 +7,8 @@ ARG HELM_SHA256=0885a501d586c1e949e9b113bf3fb3290b0bbf74db9444a1d8c2723a143006a5
 ARG BATS_VERSION=1.10.0
 ARG BATS_SHA256=a1a9f7875aa4b6a9480ca384d5865f1ccf1b0b1faead6b47aa47d79709a5c5fd
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
 # Add packages
 RUN apk --no-cache add \
     curl \
