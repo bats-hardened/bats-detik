@@ -113,7 +113,9 @@ check_line() {
   line_number="$2"
   context="Current line: $line"
 
-  line=$(echo "$line" | sed -e 's/"[[:space:]]*"//g')
+  # Keep sed: Bash parameter substitution supports globs, not regular expressions.
+  # shellcheck disable=SC2001
+  line=$(sed -e 's/"[[:space:]]*"//g' <<<"$line")
   line=$(trim "$line")
   context="$context\nPurged line:  $line"
 
