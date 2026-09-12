@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+# The regex variables reported as unassigned are loaded from lib/utils.bash by Bats.
+# shellcheck disable=SC2154
 load "../lib/utils"
 load "../lib/linter"
 

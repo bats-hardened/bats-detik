@@ -7,7 +7,7 @@ DETIK_CLIENT_NAMESPACE=""
 
 mytest() {
 	# The namespace should not appear (it is set in last position)
-	last_arg="${@: -1}"
+	last_arg="${!#}"
 	[[ "$last_arg" != "--namespace=test_ns" ]] || return 1
 	[[ "$last_arg" != "--all-namespaces" ]] || return 1
 
@@ -17,7 +17,7 @@ mytest() {
 
 mytest_with_namespace() {
 	# A namespace is expected as the last argument
-	last_arg="${@: -1}"
+	last_arg="${!#}"
 	[[ "$last_arg" == "--namespace=test_ns" ]] || [[ "$last_arg" == "--all-namespaces" ]] || return 1
 
 	# Return the result

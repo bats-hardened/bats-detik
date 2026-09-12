@@ -11,7 +11,7 @@ DETIK_CLIENT_NAME="kubectl"
 pck_version="1.0.1"
 
 setup() {
-	cd $BATS_TEST_DIRNAME
+	cd "$BATS_TEST_DIRNAME" || return
 }
 
 verify_helm() {
