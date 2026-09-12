@@ -38,3 +38,9 @@ jobs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v2
     - name: Execute the build script
       run: docker build -t bats/bats-detik .
+
+  super-linter:
+    name: Run Super-Linter
+    uses: bats-hardened/.github/.github/workflows/super-linter.yml@44fd251ecb1b4ca6fd2537eaa65be75b9be0395d # v1.1.1-beta01
+    permissions:
+      contents: read
