@@ -25,9 +25,9 @@ latest_github_tag() {
 
   release="$(curl "${github_curl_args[@]}" \
     "https://api.github.com/repos/$repo/releases/latest")"
-  printf '%s' "$release" \
-    | sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
-    | head -n 1
+  printf '%s' "$release" |
+    sed -n 's/.*"tag_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' |
+    head -n 1
 }
 
 download_sha256() {
@@ -57,7 +57,10 @@ update_pin() {
 bats_tag="$(latest_github_tag bats-core/bats-core)"
 case "$bats_tag" in
   v*) bats_version="${bats_tag#v}" ;;
-  *) echo "Failed to resolve a v-prefixed Bats release tag" >&2; exit 1 ;;
+  *)
+    echo "Failed to resolve a v-prefixed Bats release tag" >&2
+    exit 1
+    ;;
 esac
 bats_sha256="$(download_sha256 \
   "https://github.com/bats-core/bats-core/archive/refs/tags/$bats_tag.tar.gz" \
@@ -67,7 +70,10 @@ update_pin BATS_VERSION BATS_SHA256 "$bats_version" "$bats_sha256"
 kubectl_version="$(curl "${curl_args[@]}" https://dl.k8s.io/release/stable.txt)"
 case "$kubectl_version" in
   v*) ;;
-  *) echo "Failed to resolve a v-prefixed kubectl version" >&2; exit 1 ;;
+  *)
+    echo "Failed to resolve a v-prefixed kubectl version" >&2
+    exit 1
+    ;;
 esac
 kubectl_sha256="$(download_sha256 \
   "https://dl.k8s.io/release/$kubectl_version/bin/linux/amd64/kubectl" \
@@ -77,7 +83,10 @@ update_pin KUBECTL_VERSION KUBECTL_SHA256 "$kubectl_version" "$kubectl_sha256"
 helm_version="$(latest_github_tag helm/helm)"
 case "$helm_version" in
   v*) ;;
-  *) echo "Failed to resolve a v-prefixed Helm release tag" >&2; exit 1 ;;
+  *)
+    echo "Failed to resolve a v-prefixed Helm release tag" >&2
+    exit 1
+    ;;
 esac
 helm_sha256="$(download_sha256 \
   "https://get.helm.sh/helm-$helm_version-linux-amd64.tar.gz" \
